@@ -13,7 +13,7 @@
 
 请进入qq群:481605136
 
-Collection station for self-made scripts and water shadow community scripts (including those modified by myself)
+Collection station for self-made scripts and LiquidBounce community scripts (including those modified by myself)
 If you download, use and modify, please mark the address of the collection station and the original author of this script with comments
 None of the scripts in this script collection station are confused by closed source encryption according to the protocol, which is very safe
 If you modify the script of this script collection station, it is forbidden to perform closed source encryption confusion
