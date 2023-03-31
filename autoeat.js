@@ -1,0 +1,10 @@
+var scriptName="AutoEat";var scriptVersion=1.0;var scriptAuthor="ChatGPT";var C08PacketPlayerBlockPlacement=Java.type("net.minecraft.network.play.client.C08PacketPlayerBlockPlacement");var C09PacketHeldItemChange=Java.type("net.minecraft.network.play.client.C09PacketHeldItemChange");var C03PacketPlayer=Java.type('net.minecraft.network.play.client.C03PacketPlayer');var ItemFood=Java.type("net.minecraft.item.ItemFood");function AutoEat(){var foodThreshold=value.createInteger("FoodThreshold",12,1,20);var saturationThreshold=value.createFloat("SaturationThreshold",0.6,0.0,1.0);this.getName=function(){return "AutoEat";}
+this.getDescription=function(){return "Automatically eats food when hunger is low";}
+this.getCategory=function(){return "Player";}
+this.addValues=function(values){values.add(foodThreshold);values.add(saturationThreshold);}
+this.onUpdate=function(){if(mc.thePlayer.getFoodStats().getFoodLevel()<=foodThreshold.get()&&mc.thePlayer.getFoodStats().getSaturationLevel()<=saturationThreshold.get()){var foodSlot=findFoodSlot();if(foodSlot!=-1){mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(foodSlot));mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.inventory.getCurrentItem()))
+for(var i=0;i<32;i++){mc.getNetHandler().addToSendQueue(new C03PacketPlayer(mc.thePlayer.onGround));}}}}
+function findFoodSlot(){var foodSlot=-1;for(var i=0;i<9;i++){var stack=mc.thePlayer.inventory.getStackInSlot(i);if(stack!=null&&stack.getItem()instanceof ItemFood){var hunger=stack.getItem().getHealAmount(stack);if(mc.thePlayer.getFoodStats().getFoodLevel()+hunger<=20){foodSlot=i;break;}}}
+return foodSlot;}}
+var autoEatModule,autoEat=new AutoEat();function onEnable(){autoEatModule=moduleManager.registerModule(autoEat);}
+function onDisable(){moduleManager.unregisterModule(autoEatModule);}
